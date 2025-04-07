@@ -6,14 +6,14 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 
 ---
 
-## [x] 1. Project Initialization
+## ✅ 1. Project Initialization
 
-### [x] Repository Setup
+### ✅ Repository Setup
 - [x] Create a new Git repository named `local_RAG`.
 - [x] Write a clear `README.md` with project overview, scope, and initial setup instructions.
 - [x] Establish a `.gitignore` file to exclude unnecessary files (e.g., Python cache, Docker artifacts).
 
-### [x] Directory Structure
+### ✅ Directory Structure
 - Define clear folders for each component:
   - `/api` – Configuration and scripts for the Ollama container.
   - `/web` – Django project files and Python container-related code.
