@@ -2,9 +2,6 @@
 
 **Local implementation of a minimalistic RAG application with its web interface**
 
-This document outlines the project roadmap for `local_RAG` in a clear, structured manner. It details the tasks and phases for the development, testing, and deployment of the application, which utilizes Docker Compose, the Ollama project, and a Python:Alpine container running Django.
-
----
 
 ## ✅ 1. Project Initialization
 
@@ -26,14 +23,16 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 
 ### Define Functional Requirements
 - Document the API endpoints for the Ollama service.
-- Outline the RAG pipeline: document ingestion, embedding conversion, vector storage (ChromaDB), and LLM processing.
-- Detail the user flow for the web interface, from prompt submission to result display.
+- Outline the RAG pipeline: user-based document ingestion, embedding conversion, vector storage and retrieval (ChromaDB), and LLM processing.
+- Detail the user flows:
+  - **Document Upload:** Users can upload and manage their personal support documents.
+  - **Prompt Submission:** User prompts are processed using the uploaded documents for context.
 
 ### Define Technical Requirements
 - List dependencies:
   - Docker & Docker Compose.
   - Ollama Docker image.
-  - Python:Alpine with Django, `requests`, and the Ollama Python API package.
+  - Python:Alpine with Django, `requests`, the Ollama Python API package, and the ChromaDB Python library.
 - Establish performance, logging, and error handling expectations.
 
 ---
@@ -46,10 +45,10 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
   - **Ollama Service:** 
     - Use the official Ollama project Docker image.
     - Expose API endpoints for embedding conversion and LLM processing.
-    - Configure ChromaDB within this container.
   - **Web Service:**
     - Use a Python:Alpine image.
     - Set up environment variables for Django, API endpoints, and network communication.
+    - Integrate ChromaDB within this container for vector storage and retrieval.
 - Map appropriate ports and set up inter-container networking.
 
 ### Container Environment Files
@@ -63,7 +62,6 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 ### API and Service Configuration
 - Configure the container to expose RESTful API endpoints.
 - Set up document embedding functionality using support documents.
-- Integrate ChromaDB to store and manage embeddings.
 - Enable LLM processing within the container for prompt-based inference.
 
 ### Testing and Debugging
@@ -78,13 +76,21 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 - Create a new Django project within the `/web` directory.
 - Set up Django apps, focusing on API integration and user interface.
 
-### Integration of Ollama API
+### Integration of Ollama API, ChromaDB & Document Management
 - Install and configure the Ollama Python API package.
+- Integrate the ChromaDB Python library to manage vector storage and retrieval.
 - Develop Django views to:
-  - Accept user prompts.
-  - Forward requests to the Ollama container.
-  - Process and display responses.
-- Build Django forms and templates for user interactions.
+  - **Document Management:**
+    - Accept user uploads for support documents.
+    - Process and embed these documents, storing the resulting embeddings in ChromaDB.
+    - Allow users to view, update, or delete their uploaded documents.
+  - **Prompt Processing:**
+    - Accept user prompt submissions.
+    - Forward requests to the Ollama container to generate a prompt embedding.
+    - Retrieve relevant context from ChromaDB based on the embedding.
+    - Send the augmented prompt to the Ollama API for final LLM processing.
+    - Display the final response to the user.
+- Build Django forms and templates for the document upload and prompt submission interfaces.
 
 ### Communication & Error Handling
 - Implement robust error handling for API calls using `requests`.
@@ -95,7 +101,7 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 ## 6. Integration & Communication
 
 ### Inter-Container Communication
-- Validate network connectivity between the Ollama and web containers via Docker Compose.
+- Validate network connectivity between the Ollama and Web containers via Docker Compose.
 - Test API calls from the Django app to the Ollama endpoints.
 - Ensure that response times and error messages are properly handled.
 
@@ -109,10 +115,10 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 
 ### Unit & Integration Testing
 - Write unit tests for individual components (Django views, API endpoints).
-- Develop integration tests to verify end-to-end functionality of the RAG pipeline.
+- Develop integration tests to verify end-to-end functionality of the RAG pipeline, including document upload and prompt processing.
 
 ### Performance Testing
-- Validate the responsiveness of the embedding generation, vector retrieval, and LLM processing.
+- Validate the responsiveness of the embedding generation, vector retrieval via ChromaDB, and LLM processing.
 - Optimize Docker configurations if needed.
 
 ### User Acceptance Testing (UAT)
@@ -146,6 +152,3 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 ### Enhancements Roadmap
 - Identify areas for future improvements (e.g., more robust security, additional API features, enhanced UI/UX).
 - Maintain version control and detailed changelogs for continuous improvement.
-
----
-
