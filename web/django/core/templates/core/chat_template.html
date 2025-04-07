@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with Model</title>
+</head>
+<body>
+    <h1>Chat with Model</h1>
+    <form id="chat-form">
+        <label for="prompt">Enter your prompt:</label>
+        <input type="text" id="prompt" name="prompt" maxlength="500">
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Response:</h2>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('chat-form').onsubmit = function(e) {
+            e.preventDefault();
+            const prompt = document.getElementById('prompt').value;
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = '';
+
+            const eventSource = new EventSource(`/stream-response/?prompt=${encodeURIComponent(prompt)}`);
+            eventSource.onmessage = function(event) {
+                responseDiv.innerHTML += event.data;
+            };
+            eventSource.onerror = function() {
+                eventSource.close();
+            };
+        };
+    </script>
+</body>
+</html>

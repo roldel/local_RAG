@@ -1,0 +1,28 @@
+services:
+
+  ollama:
+    build:
+      context: ./api
+    container_name: rag_ollama_api
+    env_file:
+      - .env
+    ports: 
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+
+  python:
+    build:
+      context: ./web
+    volumes:
+      - ./web:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ollama
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  ollama:
+    external: true
