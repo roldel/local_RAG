@@ -1,9 +1,5 @@
 # Requirements & Planning for local_RAG
 
-This document outlines the functional and technical requirements, as well as the overall planning for the local_RAG project—a minimalistic retrieval-augmented generation (RAG) application with a web interface. The system leverages embedding models via the Ollama API, a vector database (ChromaDB) integrated within a Python:Alpine container running Django, and a multi-container orchestration setup using Docker Compose.
-
----
-
 ## Functional Requirements
 
 ### 1. Document Ingestion & Management
