@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Embedding</title>
+</head>
+<body>
+    <h1>Embed Your Text</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Generate Embedding</button>
+    </form>
+    {% if embedding %}
+        <h2>Embedding Result</h2>
+        <pre>{{ embedding }}</pre>
+    {% endif %}
+
+    <a href="/">Back to main</a>
+</body>
+</html>
+
+

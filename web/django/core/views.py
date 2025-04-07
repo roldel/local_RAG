@@ -49,3 +49,29 @@ async def stream_chat_response(request):
     response = StreamingHttpResponse(generate_response(prompt), content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response
+
+
+
+from .forms import TextInputForm
+import ollama
+
+def embed_view(request):
+    embedding_result = None
+
+    if request.method == "POST":
+        form = TextInputForm(request.POST)
+        if form.is_valid():
+            text_to_embed = form.cleaned_data["text"]
+            # Initialize the Ollama client with the specified host
+            client = ollama.Client(host='http://rag_ollama_api:11434')
+            # Generate the embedding using the specified model
+            response = client.embed(model='mxbai-embed-large', input=text_to_embed)
+            # Extract the embedding vector from the response
+            embedding_result = response.get('embeddings')
+    else:
+        form = TextInputForm()
+
+    return render(request, "core/embed.html", {
+        "form": form,
+        "embedding": embedding_result,
+    })

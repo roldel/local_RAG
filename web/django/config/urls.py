@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.intro),
     path('chat', core_views.chat_view ),
-     path('stream-response/', core_views.stream_chat_response, name='stream_response'),
+    path('stream-response/', core_views.stream_chat_response, name='stream_response'),
+    path('embed/', core_views.embed_view, name='embed'),
 ]

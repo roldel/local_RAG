@@ -17,5 +17,3 @@ embedding = response['embeddings']
 
 # Output the embedding vector
 print(embedding)
-
-client.list()
