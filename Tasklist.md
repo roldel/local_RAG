@@ -10,8 +10,8 @@ This document outlines the project roadmap for `local_RAG` in a clear, structure
 
 ### Repository Setup
 - [x] Create a new Git repository named `local_RAG`.
-- Write a clear `README.md` with project overview, scope, and initial setup instructions.
-- Establish a `.gitignore` file to exclude unnecessary files (e.g., Python cache, Docker artifacts).
+- [x] Write a clear `README.md` with project overview, scope, and initial setup instructions.
+- [x] Establish a `.gitignore` file to exclude unnecessary files (e.g., Python cache, Docker artifacts).
 
 ### Directory Structure
 - Define clear folders for each component:
