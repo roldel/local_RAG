@@ -75,3 +75,32 @@ def embed_view(request):
         "form": form,
         "embedding": embedding_result,
     })
+
+
+
+
+from django.shortcuts import redirect, get_object_or_404
+from .models import Document
+from .forms  import DocumentForm
+
+def document_list(request):
+    if request.method == "POST":
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("documents_list")
+    else:
+        form = DocumentForm()
+
+    docs = Document.objects.order_by("-uploaded_at")
+    return render(request, "core/document_list.html", {
+        "form": form,
+        "documents": docs,
+    })
+
+def document_delete(request, pk):
+    doc = get_object_or_404(Document, pk=pk)
+    # remove file from storage
+    doc.file.delete(save=False)
+    doc.delete()
+    return redirect("documents_list")

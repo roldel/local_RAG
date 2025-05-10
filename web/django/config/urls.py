@@ -16,6 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 from core import views as core_views
 
 urlpatterns = [
@@ -24,4 +28,10 @@ urlpatterns = [
     path('chat', core_views.chat_view ),
     path('stream-response/', core_views.stream_chat_response, name='stream_response'),
     path('embed/', core_views.embed_view, name='embed'),
+    path('documents_list', core_views.document_list, name='documents_list'),
+    path('delete/<int:pk>/', core_views.document_delete, name='delete'),
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,3 +11,12 @@ class TextInputForm(forms.Form):
         widget=forms.Textarea(attrs={'rows': 4, 'cols': 50}),
         max_length=1000
     )
+
+
+
+from .models import Document
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model  = Document
+        fields = ("file",)

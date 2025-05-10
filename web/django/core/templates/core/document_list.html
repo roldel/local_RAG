@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Documents</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <h1>Documents</h1>
+
+  <!-- Upload form -->
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  <hr>
+
+  <!-- List of uploaded documents -->
+  <ul>
+    {% for doc in documents %}
+      <li>
+        <!-- Click to download -->
+        <a href="{{ doc.file.url }}" download>
+          {{ doc.file.name|slice:"10:" }} ({{ doc.uploaded_at|date:"Y-m-d H:i" }})
+        </a>
+        <!-- Delete button -->
+        <form action="{% url 'delete' doc.pk %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    {% empty %}
+      <li>No documents uploaded yet.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
