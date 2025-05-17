@@ -104,3 +104,39 @@ def document_delete(request, pk):
     doc.file.delete(save=False)
     doc.delete()
     return redirect("documents_list")
+
+
+
+# core/views.py
+from .forms import SearchForm
+from .chroma_client import collection
+
+def semantic_search(request):
+    results = []
+    if request.method == "POST":
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data["query"]
+            # 1) embed the query
+            client = ollama.Client(host='http://rag_ollama_api:11434')
+            resp = client.embed(model="mxbai-embed-large", input=query)
+            emb = resp["embeddings"]
+            # 2) find top-1 in ChromaDB
+            docs = collection.query(
+                query_embeddings=emb,
+                n_results=1
+            )["documents"][0]
+            retrieved = docs[0]   # the text we stored
+            # 3) generate final answer
+            out = client.generate(
+                model="llama3.2",
+                prompt=f"Using this data: {retrieved}\nAnswer: {query}"
+            )
+            results = out["response"]
+    else:
+        form = SearchForm()
+
+    return render(request, "core/semantic_search.html", {
+        "form": form,
+        "results": results,
+    })

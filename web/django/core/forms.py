@@ -20,3 +20,14 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model  = Document
         fields = ("file",)
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(
+        label="Enter your question",
+        max_length=512,
+        widget=forms.TextInput(attrs={
+            "placeholder": "What do you want to know?",
+            "class": "form-control",
+        })
+    )

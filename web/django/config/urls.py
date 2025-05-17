@@ -31,6 +31,9 @@ urlpatterns = [
     path('documents_list', core_views.document_list, name='documents_list'),
     path('delete/<int:pk>/', core_views.document_delete, name='delete'),
 
+    path('semantic', core_views.semantic_search, name='semantic'),
+
+
 ]
 
 if settings.DEBUG:

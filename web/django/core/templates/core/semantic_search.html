@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Semantic Search</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <h1>Semantic Document Search</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+
+  <hr>
+
+  {% if results %}
+    <h2>Answer</h2>
+    <div class="search-result">
+      {{ results }}
+    </div>
+  {% elif results is not None %}
+    <p>No answer found.</p>
+  {% endif %}
+</body>
+</html>

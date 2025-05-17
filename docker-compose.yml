@@ -16,12 +16,14 @@ services:
       context: ./web
     volumes:
       - ./web:/code
+      - chroma_data:/code/chroma
     ports:
       - "8000:8000"
     depends_on:
       - ollama
     environment:
       - PYTHONUNBUFFERED=1
+      - CHROMA_PERSIST_DIR=/code/chroma
     command: >
       sh -c "
         python manage.py makemigrations --noinput &&
@@ -32,3 +34,4 @@ services:
 volumes:
   ollama:
     external: true
+  chroma_data:
