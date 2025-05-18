@@ -1,0 +1,11 @@
+- Test pdf file upload and info retireval
+
+- ADD user info for file type acceptable
+
+- ADD form/view filters for the document upload types
+
+- Incrrease user input entry field size, text are, in local RAG
+
+- Make rendering conditional for response box
+
+- Make the local RAG respond as stream

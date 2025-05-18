@@ -5,7 +5,7 @@ FROM python:slim
 
 
 # Install ollama pip package
-RUN pip install ollama requests django uvicorn chromadb
+RUN pip install ollama requests django uvicorn chromadb PyPDF2
 
 
 WORKDIR /code/django
