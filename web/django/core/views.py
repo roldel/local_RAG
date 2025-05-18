@@ -110,9 +110,13 @@ def document_delete(request, pk):
 # core/views.py
 from .forms import SearchForm
 from .chroma_client import collection
+from .models import Document
 
 def semantic_search(request):
+
     results = []
+    documents = Document.objects.order_by("-uploaded_at")
+
     if request.method == "POST":
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -139,4 +143,5 @@ def semantic_search(request):
     return render(request, "core/semantic_search.html", {
         "form": form,
         "results": results,
+        "documents": documents,
     })

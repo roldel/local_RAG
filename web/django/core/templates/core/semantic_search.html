@@ -25,5 +25,35 @@
   {% elif results is not None %}
     <p>No answer found.</p>
   {% endif %}
+
+      <br> 
+      
+        <hr>
+
+      
+      <br>
+
+    <h2>Available Documents</h2>
+  <ul>
+    {% for doc in documents %}
+      <li>
+        <a href="{{ doc.file.url }}" download>
+          {{ doc.file.name|slice:"10:" }} ({{ doc.uploaded_at|date:"Y-m-d H:i" }})
+        </a>
+      </li>
+    {% empty %}
+      <li><em>No documents uploaded yet.</em></li>
+    {% endfor %}
+  </ul>
+
+      <a href="/documents_list">Navigate to Document Manager</a>
+
+
+  <br> <br>
+
+  <br> <br>
+
+    <a href="/">Back to main menu</a>
+
 </body>
 </html>
