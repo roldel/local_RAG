@@ -9,12 +9,20 @@
 <body>
   <h1>Documents</h1>
 
+  <br>
+
+  <p>WARNING : Only compatible documents types are .txt and .pdf</p>
+
+  <br>
+
   <!-- Upload form -->
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Upload</button>
   </form>
+
+  <br>
 
   <hr>
 

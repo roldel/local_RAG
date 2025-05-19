@@ -7,23 +7,47 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+
   <h1>Semantic Document Search</h1>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Search</button>
-  </form>
+  <br>
 
-  <hr>
+<form method="post">
+  {% csrf_token %}
+  {% for field in form %}
+    <div class="form-group">
+      <h2>{{ field.label_tag }} </h2>
+      <br>
+      {{ field }}
+      {% if field.help_text %}
+        <small class="help-text">{{ field.help_text }}</small>
+      {% endif %}
+      {% for err in field.errors %}
+        <div class="error">{{ err }}</div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+    <br>
+
+  <button type="submit">Search</button>
+</form>
+
+<br>
+
 
   {% if results %}
+  
+    <hr>
+
+    <br>
+
     <h2>Answer</h2>
     <div class="search-result">
       {{ results }}
     </div>
+    <br>
   {% elif results is not None %}
-    <p>No answer found.</p>
   {% endif %}
 
       <br> 
@@ -33,7 +57,7 @@
       
       <br>
 
-    <h2>Available Documents</h2>
+    <h3>Available context documents</h3>
   <ul>
     {% for doc in documents %}
       <li>

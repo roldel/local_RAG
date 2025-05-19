@@ -1,11 +1,11 @@
-- Test pdf file upload and info retireval
-
-- ADD user info for file type acceptable
-
-- ADD form/view filters for the document upload types
-
-- Incrrease user input entry field size, text are, in local RAG
-
-- Make rendering conditional for response box
+- ADD form/view form upload field validator for only compatible document types validation
 
 - Make the local RAG respond as stream
+
+- Evaluate chroma closest match ranking process
+
+- Offer different RAG context document selection rules
+
+- Run conversation as chat ? Previous message as context
+
+- Update documentation

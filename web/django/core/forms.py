@@ -24,10 +24,9 @@ class DocumentForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     query = forms.CharField(
-        label="Enter your question",
+        label="Enter your query",
         max_length=512,
-        widget=forms.TextInput(attrs={
-            "placeholder": "What do you want to know?",
-            "class": "form-control",
-        })
+        widget=forms.Textarea(attrs={'rows': 4, 'cols': 50,
+        "placeholder": "What do you want to know?",
+            "class": "form-control",}),
     )
