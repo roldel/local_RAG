@@ -1,5 +1,3 @@
-- ADD form/view form upload field validator for only compatible document types validation
-
 - Make the local RAG respond as stream
 
 - Evaluate chroma closest match ranking process

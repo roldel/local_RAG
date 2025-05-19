@@ -14,12 +14,33 @@ class TextInputForm(forms.Form):
 
 
 
+import os
+from django.core.exceptions import ValidationError
 from .models import Document
+
 
 class DocumentForm(forms.ModelForm):
     class Meta:
-        model  = Document
+        model = Document
         fields = ("file",)
+
+    def clean_file(self):
+        upload = self.cleaned_data['file']
+        ext = os.path.splitext(upload.name)[1].lower()
+        if ext not in ('.txt', '.pdf'):
+            raise ValidationError("Only .txt and .pdf files are allowed.")
+
+        # Optional: check content_type
+        ct = upload.content_type
+        if ext == '.txt' and ct != 'text/plain':
+            raise ValidationError("Invalid MIME type for .txt.")
+        if ext == '.pdf' and ct != 'application/pdf':
+            raise ValidationError("Invalid MIME type for .pdf.")
+
+        return upload
+
+
+
 
 
 class SearchForm(forms.Form):

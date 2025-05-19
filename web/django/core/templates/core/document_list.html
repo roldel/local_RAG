@@ -27,6 +27,11 @@
   <hr>
 
   <!-- List of uploaded documents -->
+
+  {% if documents %}
+
+  <h3>Available context documents</h3>
+
   <ul>
     {% for doc in documents %}
       <li>
@@ -40,10 +45,13 @@
           <button type="submit">Delete</button>
         </form>
       </li>
+      <br>
     {% empty %}
       <li>No documents uploaded yet.</li>
     {% endfor %}
   </ul>
+
+  {% endif %}
 
       <br> <br>
 
