@@ -25,13 +25,14 @@ from core import views as core_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.intro),
-    path('chat', core_views.chat_view ),
+    path('generate', core_views.generate_view ),
     path('stream-response/', core_views.stream_chat_response, name='stream_response'),
     path('embed/', core_views.embed_view, name='embed'),
     path('documents_list', core_views.document_list, name='documents_list'),
     path('delete/<int:pk>/', core_views.document_delete, name='delete'),
 
     path('semantic', core_views.semantic_search, name='semantic'),
+    path("chat/", core_views.chat_page, name="chat_page"),
 
 
 ]

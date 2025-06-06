@@ -10,7 +10,7 @@ from asgiref.sync import sync_to_async
 from ollama import AsyncClient
 from .forms import PromptForm
 
-async def chat_view(request):
+async def generate_view(request):
     response = None
 
     if request.method == 'POST':
@@ -144,4 +144,65 @@ def semantic_search(request):
         "form": form,
         "results": results,
         "documents": documents,
+    })
+
+
+
+
+
+from django.urls import reverse
+from .forms import ChatMessageForm
+from ollama import Client
+from django.views.decorators.http import require_http_methods
+
+OLLAMA_HOST = "http://rag_ollama_api:11434"
+
+@require_http_methods(["GET", "POST"])
+def chat_page(request):
+    """
+    A session‐backed, synchronous chat page. Each POST appends the user's
+    message and Ollama's reply to request.session["chat_history"].
+    """
+    # Initialize the chat history in the session if needed
+    if "chat_history" not in request.session:
+        request.session["chat_history"] = []
+
+    history = request.session["chat_history"]  # list of {"role":…, "content":…}
+
+    if request.method == "POST":
+        form = ChatMessageForm(request.POST)
+        if form.is_valid():
+            user_text = form.cleaned_data["message"].strip()
+            if user_text:
+                # 1) Append the new user message
+                history.append({ "role": "user", "content": user_text })
+
+                # 2) Call Ollama chat(...) on the entire history
+                try:
+                    client = Client(host=OLLAMA_HOST)
+                    result = client.chat(
+                        model="llama3.2",
+                        messages=history,
+                        stream=False
+                    )
+                    # ✂️ CORRECT EXTRACTION HERE ✂️
+                    assistant_text = result["message"]["content"]
+                except Exception as e:
+                    assistant_text = f"[Error calling Ollama: {e}]"
+
+                # 3) Append the assistant reply
+                history.append({ "role": "assistant", "content": assistant_text })
+
+                # 4) Save back into session
+                request.session["chat_history"] = history
+                request.session.modified = True
+
+                # 5) Redirect to avoid re‐POST on refresh
+                return redirect(reverse("chat_page"))
+    else:
+        form = ChatMessageForm()
+
+    return render(request, "core/chat.html", {
+        "form": form,
+        "history": history,
     })

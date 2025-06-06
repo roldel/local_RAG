@@ -1,0 +1,85 @@
+{# templates/core/chat.html #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Chat with Ollama</title>
+    <style>
+        /* Simple styling so you can see user vs. assistant */
+        body {
+            font-family: sans-serif;
+            margin: 2rem;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .message.user {
+            background-color: #e0f7fa;
+            text-align: right;
+        }
+        .message.assistant {
+            background-color: #f1f8e9;
+            text-align: left;
+        }
+        .message .role-label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        form {
+            margin-top: 2rem;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+        button[type="submit"] {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat with Llama 3.2</h1>
+
+        {# 1) Show the entire history of messages #}
+        {% if history %}
+            <div id="chat-history">
+                {% for msg in history %}
+                    <div class="message {{ msg.role }}">
+                        <span class="role-label">
+                            {{ msg.role|capfirst }}:
+                        </span>
+                        <span class="message-content">
+                            {{ msg.content }}
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p><em>No conversation yet. Say hello!</em></p>
+        {% endif %}
+
+        {# 2) Form to submit a new message #}
+        <form method="post" action="{% url 'chat_page' %}">
+            {% csrf_token %}
+            {{ form.message }}
+            <button type="submit">Send</button>
+        </form>
+
+        <p style="margin-top: 2rem;">
+            <a href="/">Back to main menu</a>
+        </p>
+    </div>
+</body>
+</html>

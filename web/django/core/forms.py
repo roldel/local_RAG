@@ -51,3 +51,15 @@ class SearchForm(forms.Form):
         "placeholder": "What do you want to know?",
             "class": "form-control",}),
     )
+
+
+
+class ChatMessageForm(forms.Form):
+    message = forms.CharField(
+        label="Your message",
+        max_length=500,
+        widget=forms.TextInput(attrs={
+            "placeholder": "Type your message here…",
+            "autocomplete": "off"
+        })
+    )
